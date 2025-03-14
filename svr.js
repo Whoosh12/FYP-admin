@@ -9,3 +9,11 @@ function asyncWrap(f) {
         .catch((e) => next(e || new Error()));
     };
   }
+
+async function getStudents(req, res){
+  res.json(1);
+}
+
+app.get('/student', asyncWrap(getStudents));
+
+app.listen(8080);
