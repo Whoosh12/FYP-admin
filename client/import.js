@@ -1,24 +1,40 @@
-// import assert from 'node:assert';
-// import { parse } from 'csv-parse/sync';
-
-// const file = fileInput.value;
-
-// const input = `
-// "key_1","key_2"
-// "value 1","value 2"
-// `;
-// const records = parse(input, {
-//   columns: true,
-//   skip_empty_lines: true
-// });
-// assert.deepStrictEqual(
-//   records,
-//   [{ key_1: 'value 1', key_2: 'value 2' }]
-// );
+// import { csv2json } from "./node_modules/json-2-csv";
+// let converter = require('json-2-csv');
 
 function submitFile(){
     console.log('a');
-    console.log(document.querySelector('#fileInput').files);
+    const file = document.querySelector('#fileInput');
+    const selectedFile = file.files[0];
+    const reader = new FileReader();
+    const importedObject = [];
+    const student = {
+        id: 0,
+        firstName: '',
+        Sirname: '',
+    };
+
+    reader.addEventListener(
+        "load",
+        () => {
+            // console.log(reader.result);
+            for(let i=0; i<reader.result.length; i++){
+                const currentStudent = Object.create(student);
+                if(i+1/3 != 1 && i+1/2 != 1){
+                    currentStudent.id = reader.result[i];
+                } else if(i/2 == 1 && i+1/3 != 1 && i+1/4 != 1){
+                    currentStudent.firstName = reader.result[i];
+                } else if(i+1/3 ==1);
+                importedObject.append(currentStudent);
+            }
+            console.log(importedObject);
+        },
+        false,
+    );
+
+    if(selectedFile){
+        reader.readAsText(selectedFile);
+    }
+    
 }
 
 function init(){
