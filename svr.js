@@ -1,3 +1,4 @@
+import * as db from './dbAccess.js';
 import express from 'express';
 
 const app = express();
@@ -11,13 +12,15 @@ function asyncWrap(f) {
   }
 
 async function getStudents(req, res){
-  res.json(1);
+  res.json(await db.findAllStudents());
 }
 
-// async function makeJson(req, res){
-//   csv2json()
-// }
+async function saveStudents(req, res) {
+  const students = await db.saveStudents(req.body);
+  res.json(students);
+};
 
 app.get('/student', asyncWrap(getStudents));
+app.put('/student', asyncWrap(saveStudents));
 
 app.listen(8080);
