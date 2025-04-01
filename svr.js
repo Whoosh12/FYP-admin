@@ -15,12 +15,13 @@ async function getStudents(req, res){
   res.json(await db.findAllStudents());
 }
 
-async function saveStudents(req, res) {
-  const students = await db.saveStudents(req.body);
+async function saveStudent(req, res) {
+  const students = await db.saveStudent(req.body);
   res.json(students);
 };
 
-app.get('/student', asyncWrap(getStudents));
-app.put('/student', asyncWrap(saveStudents));
+app.get('/students', getStudents);
+app.post('/student', express.json(), asyncWrap(saveStudent));
+// app.post('/student', function() {console.log('hello!') })
 
 app.listen(8080);

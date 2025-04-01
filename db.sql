@@ -1,5 +1,3 @@
-CREATE ROLE Seth superuser;
-
 DROP TABLE IF EXISTS student, staff, staff_study, study, student_choice;
 
 CREATE TABLE staff (
@@ -19,9 +17,9 @@ CREATE TABLE student (
     studentID  VARCHAR(10) PRIMARY KEY,
     firstName varchar(100),
     lastName varchar(100),
+    course varchar(100),
     supervisorID INT REFERENCES staff(staffID) DEFAULT 1,
-    moderatorID INT REFERENCES staff(staffID) DEFAULT 1,
-    course varchar(100)
+    moderatorID INT REFERENCES staff(staffID) DEFAULT 1
 );
 
 CREATE TABLE student_choice (

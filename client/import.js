@@ -8,7 +8,6 @@ function submitFile(){
     const file = document.querySelector('#fileInput');
     const selectedFile = file.files[0];
     const reader = new FileReader();
-    const importedObject = [];
 
     reader.addEventListener(
         "load",
@@ -16,7 +15,6 @@ function submitFile(){
             const csvData = reader.result;
             const jsonData = csvToJson(csvData);
             saveStudents(jsonData);
-            window.location.href = '/student';
         },
         false,
     );
@@ -24,49 +22,46 @@ function submitFile(){
     if(selectedFile){
         reader.readAsText(selectedFile);
     }
-    
 }
 
 async function saveStudents(students) {
+    console.log(students);
     for(const student of students){
         const payload = student;
-
-    const response = await fetch('/students', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: payload,
-    });
+        const response = await fetch('student', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        console.log(student);
     }
+    window.location.href = '/student';
 }
 
 function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/how-to-convert-csv-to-json-in-javascript/
-    const rows = csvString
-        .split("\n");
+    const rows = csvString.split("\n");
 
-    const headers = rows[0]
-        .split(",");
+    const headers = rows[0].split(",");
 
     const jsonData = [];
     for (let i = 1; i < rows.length; i++) {
 
-        const values = rows[i]
-            .split(",");
+        const values = rows[i].split(",");
 
         const obj = {};
 
         for (let j = 0; j < headers.length; j++) {
 
-            const key = headers[j]
-                .trim();
-            const value = values[j]
-                .trim();
+            const key = headers[j].trim();
+            const value = values[j];
 
             obj[key] = value;
         }
-
+        // console.log(obj);
         jsonData.push(obj);
     }
-    return JSON.stringify(jsonData);
+    // console.log(jsonData);
+    return jsonData;
 }
 
 function init(){

@@ -1,5 +1,6 @@
 export default {
-    database: 'admin',
+    database: 'db',
     statement_timeout: 5000,
-    password: 'abc12',
+    user: 'postgres',
+    passwork: 'abc1234',
   };

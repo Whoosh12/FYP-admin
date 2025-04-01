@@ -1,6 +1,7 @@
 {
     "type": "module",
     "dependencies": {
+        "cors": "^2.8.5",
         "express": "^4.21.2",
         "json-2-csv": "^5.5.9",
         "pg": "^8.14.1"
