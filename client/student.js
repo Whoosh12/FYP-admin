@@ -24,9 +24,21 @@ function goToImport(){
     window.location.href = '/import';
 }
 
+function goToSupervisor(){
+    window.location.href = '/supervisor';
+}
+
+function goToModerator(){
+    window.location.href = '/moderator';
+}
+
 function init(){
     const importButton = document.querySelector('#importPage');
     importButton.addEventListener('click', goToImport);
+    const moderatorSelect = document.querySelector('#moderatorPage');
+    moderatorSelect.addEventListener('click', goToModerator);
+    const supervisorSelect = document.querySelector('#supervisorPage');
+    supervisorSelect.addEventListener('click', goToSupervisor);
     loadStudents();
 }
 

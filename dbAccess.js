@@ -15,7 +15,19 @@ export async function saveStudent(student){
 }
 
 export async function findAllStudents(){
-  const q =  'SELECT studentID, firstName, lastName, course, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.staffID INNER JOIN moderator ON student.moderatorID = moderator.staffID;';
+  const q =  'SELECT studentID, firstName, lastName, course, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID;';
+  const r = await sql.query(q);
+  return r.rows;
+}
+
+export async function findAllSupervisors(){
+  const q = 'SELECT supervisorID, supervisorFName, supervisorLName, supervisorSlots FROM supervisor;'
+  const r = await sql.query(q);
+  return r.rows;
+}
+
+export async function findAllmoderators(){
+  const q = 'SELECT moderatorID, moderatorFName, moderatorLName, moderatorSlots FROM supervisor;'
   const r = await sql.query(q);
   return r.rows;
 }

@@ -20,8 +20,17 @@ async function saveStudent(req, res) {
   res.json(students);
 };
 
+async function getSupervisors(req, res){
+  res.json(await db.findAllSupervisors());
+}
+
+async function getModerators(req, res){
+  res.json(await db.findAllmoderators());
+}
+
 app.get('/students', getStudents);
 app.post('/student', express.json(), asyncWrap(saveStudent));
-// app.post('/student', function() {console.log('hello!') })
+app.get('/supervisors', getSupervisors);
+app.get('/moderators', getModerators);
 
 app.listen(8080);
