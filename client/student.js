@@ -12,11 +12,11 @@ async function loadStudents(){
     for(const student of result){
         const row = document.createElement("p");
         console.log(student);
-        // for(const [key, value] of student.value){
-        //     row.textContent = `${key}: ${value}`;
-        // }
-        row.textContent = student;
-        target.append(student);
+        for(const [key, value] of Object.entries(student)){
+            row.textContent += `${value}, `;
+        }
+        // row.textContent += student.firstname;
+        target.append(row);
     }
 }
 
