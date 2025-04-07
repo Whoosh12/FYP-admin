@@ -15,7 +15,7 @@ export async function saveStudent(student){
 }
 
 export async function findAllStudents(){
-  const q =  'SELECT studentID, firstName, lastName, course, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID;';
+  const q =  'SELECT studentID, firstName, lastName, course, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID SORT BY studentid ASC;';
   const r = await sql.query(q);
   return r.rows;
 }
@@ -27,13 +27,13 @@ export async function findAllSupervisors(){
 }
 
 export async function findAllmoderators(){
-  const q = 'SELECT moderatorID, moderatorFName, moderatorLName, moderatorSlots FROM supervisor;';
+  const q = 'SELECT moderatorID, moderatorFName, moderatorLName, moderatorSlots FROM moderator;';
   const r = await sql.query(q);
   return r.rows;
 }
 
 export async function findStudentEdit(id){
-  const q = 'SELECT studentid, firstName, lastName, course, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID WHERE studentID = $1;';
+  const q = 'SELECT studentid, firstName, lastName, course, student.supervisorid, supervisorFName, supervisorLName, student.moderatorid, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID WHERE studentID = $1;';
   const r = await sql.query(q, [id]);
   return r.rows[0];
 }
@@ -51,8 +51,8 @@ export async function findModeratorEdit(id){
 }
 
 export async function updateStudent(student){
-  const q = 'UPDATE student SET firstname = $1, lastname = $2, course = $3, supervisorfname = $4, supervisorlname = $5, moderatorfname = $6, moderatorlname = $7 WHERE studentid = $8;';
-  await sql.query(q, [student.firstname, student.lastname, student.course, student.supervisorfname, student.supervisorlname, student.moderatorfname, student.moderatorlname, student.id]);
+  const q = 'UPDATE student SET firstname = $1, lastname = $2, course = $3, supervisorid = $4, moderatorid = $5 WHERE studentid = $6;';
+  await sql.query(q, [student.firstname, student.lastname, student.course, student.supervisorid, student.moderatorid, student.id]);
 }
 
 export async function updateSupervisor(supervisor){

@@ -38,23 +38,51 @@ async function editModerator(id){
     return await response.json();
 }
 
-function setInputStudent(student){
+async function getSupervisors(){
+    const response = await fetch('/supervisors');
+    return await response.json();
+}
+
+async function getModerators(){
+    const response = await fetch('/moderators');
+    return await response.json();
+}
+
+async function setInputStudent(student){
+    const supervisors = getSupervisors();
+    const moderators = getModerators();
     const studentSection = document.querySelector('#editStudent');
     const fNameInput = document.querySelector('#editStudentFName');
     const lNameInput = document.querySelector('#editStudentLName');
     const courseInput = document.querySelector('#editStudentCourse');
-    const supervisorFNameInput = document.querySelector('#editStudentSupervisorFName');
-    const supervisorLNameInput = document.querySelector('#editStudentSupervisorLName');
-    const moderatorFNameInput = document.querySelector('#editStudentModeratorFName');
-    const moderatorLNameInput = document.querySelector('#editStudentModeratorLName');
+    const supervisorSelect = document.querySelector('#supervisorSelect');
+    const moderatorSelect = document.querySelector('#moderatorSelect');
+    const currentSup = document.querySelector('#currentSup');
+    const currentMod = document.querySelector('#currentMod');
     studentSection.classList.toggle('hidden');
     fNameInput.value = student.firstname;
     lNameInput.value = student.lastname;
     courseInput.value = student.course;
-    supervisorFNameInput.value = student.supervisorfname;
-    supervisorLNameInput.value = student.supervisorlname;
-    moderatorFNameInput.value = student.moderatorfname;
-    moderatorLNameInput.value = student.moderatorlname;
+    currentSup.textContent = student.supervisorfname + ' ' + student.supervisorlname;
+    currentSup.value = student.supervisorid;
+    currentMod.textContent = student.moderatorfname + ' ' + student.moderatorlname;
+    currentMod.value = student.moderatorid;
+    for(const supervisor of await supervisors){
+        if(supervisor.supervisorfname != student.supervisorfname && supervisor.supervisorlname != student.supervisorlname){
+            const supervisorOption = document.createElement('option');
+            supervisorOption.textContent = supervisor.supervisorfname + ' ' + supervisor.supervisorlname;
+            supervisorOption.value = supervisor.supervisorid;
+            supervisorSelect.append(supervisorOption);
+        }
+    }
+    for(const moderator of await moderators){
+        if(moderator.moderatorfname != student.moderatorfname && moderator.moderatorlname != student.moderatorlname){
+            const moderatorOption = document.createElement('option');
+            moderatorOption.textContent = moderator.moderatorfname + ' ' + moderator.moderatorlname;
+            moderatorOption.value = moderator.moderatorid;
+            moderatorSelect.append(moderatorOption);
+        }
+    }
 }
 
 function setInputSupervisor(supervisor){
@@ -84,28 +112,26 @@ async function submitStudentUpdate(){
     const fNameInput = document.querySelector('#editStudentFName');
     const lNameInput = document.querySelector('#editStudentLName');
     const courseInput = document.querySelector('#editStudentCourse');
-    const supervisorFNameInput = document.querySelector('#editStudentSupervisorFName');
-    const supervisorLNameInput = document.querySelector('#editStudentSupervisorLName');
-    const moderatorFNameInput = document.querySelector('#editStudentModeratorFName');
-    const moderatorLNameInput = document.querySelector('#editStudentModeratorLName');
+    const supervisorSelect = document.querySelector('#supervisorSelect');
+    const moderatorSelect = document.querySelector('#moderatorSelect');
+    console.log(supervisorSelect.value);
 
     const payload = {
         id,
         firstname: fNameInput.value,
         lastname: lNameInput.value,
         course: courseInput.value,
-        supervisorfname: supervisorFNameInput.value,
-        supervisorlname: supervisorLNameInput.value,
-        moderatorfname: moderatorFNameInput.value,
-        moderatorlname: moderatorLNameInput.value,
+        supervisorid: supervisorSelect.value,
+        moderatorid: moderatorSelect.value,
     };
-    console.log(payload);
 
     const response = await fetch(`student/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+
+    window.location.href = '/student';
 }
 
 async function submitSupervisorUpdate() {
