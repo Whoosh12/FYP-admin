@@ -10,13 +10,17 @@ async function loadSupervisors(){
     }
 
     for(const supervisor of result){
+        const span = document.createElement("span");
         const row = document.createElement("p");
-        console.log(supervisor);
+        const button = document.createElement("button");
+        button.textContent = '>';
         for(const [key, value] of Object.entries(supervisor)){
             row.textContent += `${value}, `;
         }
-        // row.textContent += student.firstname;
-        target.append(row);
+        button.addEventListener('click', () => window.location.href = `edit#supervisor${supervisor.supervisorid}`);
+        span.append(row);
+        span.append(button);
+        target.append(span);
     }
 }
 

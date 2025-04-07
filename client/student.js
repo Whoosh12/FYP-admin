@@ -10,13 +10,19 @@ async function loadStudents(){
     }
 
     for(const student of result){
+        const span = document.createElement("span");
         const row = document.createElement("p");
-        console.log(student);
+        const button = document.createElement("button");
+        button.textContent = '>';
         for(const [key, value] of Object.entries(student)){
             row.textContent += `${value}, `;
         }
-        // row.textContent += student.firstname;
-        target.append(row);
+        button.addEventListener('click', () => window.location.href = `edit#student${student.studentid}`);
+        span.append(row);
+        span.append(button);
+        // target.append(button);
+        // target.append(row);
+        target.append(span);
     }
 }
 

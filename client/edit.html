@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<title>FYP admin app</title>
+<link rel="stylesheet" href="style.css"/>
+<script defer src="edit.js" type="module"></script>
+
+<body>
+    <button id="backButton">Back</button>
+
+    <section id="editStudent" class="hidden">
+        <input type="text" id="editStudentFName"/>
+        <input type="text" id="editStudentLName" />
+        <input type="text" id="editStudentCourse" />
+        <input type="text" id="editStudentSupervisorFName" />
+        <input type="text" id="editStudentSupervisorLName" />
+        <input type="text" id="editStudentModeratorFName" />
+        <input type="text" id="editStudentModeratorLName" /> 
+        <button id="updateStudent">Update</button>
+    </section>
+
+    <section id="editSupervisor" class="hidden">
+        <input type="text" id="editSupervisorFName" />
+        <input type="text" id="editSupervisorLName" />
+        <input type="text" id="editSupervisorSlots" />
+        <button id="updateSupervisor">Update</button>
+    </section>
+
+    <section id="editModerator" class="hidden">
+        <input type="text" id="editModeratorFName" />
+        <input type="text" id="editModeratorLName" />
+        <input type="text" id="editModeratorSlots" />
+        <button id="updateModerator">Update</button>
+    </section>
+</body>

@@ -10,12 +10,17 @@ async function loadModerators(){
     }
 
     for(const moderator of result){
+        const span = document.createElement("span");
         const row = document.createElement("p");
-        console.log(moderator);
+        const button = document.createElement("button");
+        button.textContent = '>';
         for(const [key, value] of Object.entries(moderator)){
             row.textContent += `${value}, `;
         }
-        target.append(row);
+        button.addEventListener('click', () => window.location.href = `edit#moderator${moderator.moderatorid}`);
+        span.append(row);
+        span.append(button);
+        target.append(span);
     }
 }
 
