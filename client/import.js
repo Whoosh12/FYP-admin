@@ -25,15 +25,17 @@ function submitFile(){
 }
 
 async function saveStudents(students) {
+    const feedback = document.querySelector('#feedback');
     console.log(students);
-    for(const student of students){
-        const payload = student;
+    for(let i = 0; i < students.length; i++){
+        const payload = students[i];
         const response = await fetch('student', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
-        console.log(student);
+        console.log(students[i]);
+        feedback.textContent = `Imported ${i} out of ${students.length} students`
     }
     window.location.href = '/student';
 }
