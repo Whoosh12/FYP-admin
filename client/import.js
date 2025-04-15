@@ -3,7 +3,7 @@
 "use strict";
 
 
-function submitFile(){
+function submitStudentFile(){
     console.log('a');
     const file = document.querySelector('#fileInput');
     const selectedFile = file.files[0];
@@ -28,16 +28,69 @@ async function saveStudents(students) {
     const feedback = document.querySelector('#feedback');
     console.log(students);
     for(let i = 0; i < students.length; i++){
-        const payload = students[i];
-        const response = await fetch('student', {
+        const payload = {
+            id: i,
+            firstname: students[i].firstName,
+            lastname: students[i].lastName,
+            course: students[i].course,
+        }
+        console.log(payload);
+        const response1 = await fetch('student', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        const response2 = await fetch('choices', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
         console.log(students[i]);
-        feedback.textContent = `Imported ${i} out of ${students.length} students`
+        feedback.textContent = `Imported ${i + 1} out of ${students.length} students`
     }
     window.location.href = '/student';
+}
+
+function submitStaffFile(){
+    console.log('a');
+    const file = document.querySelector('#fileInput');
+    const selectedFile = file.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener(
+        "load",
+        () => {
+            const csvData = reader.result;
+            const jsonData = csvToJson(csvData);
+            saveStaff(jsonData);
+        },
+        false,
+    );
+
+    if(selectedFile){
+        reader.readAsText(selectedFile);
+    }
+}
+
+async function saveStaff(staff) {
+    const randomNum = Math.round(Math.random() * 6);
+    const feedback = document.querySelector('#feedback');
+    for(let i = 0; i < staff.length; i++){
+        const payload = staff[i];
+        const response1 = await fetch('supervisors', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        const response2 = await fetch('moderators', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+        });
+        console.log(staff[i]);
+        feedback.textContent = `Imported ${i + 1} out of ${staff.length} staff`
+    }
+    window.location.href = '/';
 }
 
 function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/how-to-convert-csv-to-json-in-javascript/
@@ -67,9 +120,10 @@ function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/ho
 }
 
 function init(){
-    const fileInput = document.querySelector('#fileInput');
-    const inputButton = document.querySelector('#inputButton');
-    inputButton.addEventListener('click', submitFile);
+    const importStudents = document.querySelector('#importStudents');
+    const importStaff = document.querySelector('#importStaff');
+    importStudents.addEventListener('click', submitStudentFile);
+    importStaff.addEventListener('click', submitStaffFile);
 }
 
 init();

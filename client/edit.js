@@ -114,7 +114,7 @@ async function submitStudentUpdate(){
     const courseInput = document.querySelector('#editStudentCourse');
     const supervisorSelect = document.querySelector('#supervisorSelect');
     const moderatorSelect = document.querySelector('#moderatorSelect');
-    console.log(supervisorSelect.value);
+    console.log(id);
 
     const payload = {
         id,
@@ -129,9 +129,9 @@ async function submitStudentUpdate(){
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      });
+    });
 
-    window.location.href = '/student';
+    // window.location.href = '/student';
 }
 
 async function submitSupervisorUpdate() {
