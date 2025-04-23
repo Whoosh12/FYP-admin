@@ -119,11 +119,30 @@ function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/ho
     return jsonData;
 }
 
+function applyAccessibility(){
+    const allElems = document.querySelectorAll('body > *');
+    const cookieSplit1 = document.cookie.split("; ");
+    const cookieValue = [];
+    const accessObject = {};
+    for(const cookie of cookieSplit1){
+        const cookieSplit2 = cookie.split("=");
+        accessObject[cookieSplit2[0]] = cookieSplit2[1];
+    }
+
+    for(const elem of allElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
+    document.body.style.backgroundColor = accessObject.backgroundColour;
+}
+
 function init(){
     const importStudents = document.querySelector('#importStudents');
     const importStaff = document.querySelector('#importStaff');
     importStudents.addEventListener('click', submitStudentFile);
     importStaff.addEventListener('click', submitStaffFile);
+    applyAccessibility();
 }
 
 init();

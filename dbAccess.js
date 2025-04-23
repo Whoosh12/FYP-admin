@@ -86,11 +86,11 @@ export async function setDefaultChoices(choices){
 }
 
 export async function assignSupervisor(choice){
-  const q = 'UPDATE student SET supervisorid = $1, markSup = true WHERE studentid = $2;';
-  await sql.query(q, [choice.supervisorid, choice.id]);
+  const q = 'UPDATE student SET supervisorid = $1, moderatorid = $2, markSup = true WHERE studentid = $3;';
+  await sql.query(q, [choice.supervisorid, choice.moderatorid, choice.id]);
 }
 
-export async function minusSlots(supervisor){
+export async function updateSlots(supervisor){
   const q = 'UPDATE supervisor SET supervisorslots = $1 WHERE supervisorid = $2;';
   await sql.query(q, [supervisor.slots, supervisor.id]);
 }
@@ -100,6 +100,7 @@ export async function findAllChosen(){
   const r = await sql.query(q);
   return r.rows;
 }
+
 
 // INNER JOIN supervisor ON student.supervisorid = supervisor.supervisorid
 // supervisorslots

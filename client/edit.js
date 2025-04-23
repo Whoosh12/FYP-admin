@@ -174,6 +174,28 @@ async function submitModeratorUpdate(){
       });
 }
 
+function applyAccessibility(){
+    const allElems = document.querySelectorAll('section > *');
+    const button = document.querySelector('#backButton');
+    const cookieSplit1 = document.cookie.split("; ");
+    const accessObject = {};
+    for(const cookie of cookieSplit1){
+        const cookieSplit2 = cookie.split("=");
+        accessObject[cookieSplit2[0]] = cookieSplit2[1];
+    }
+
+    for(const elem of allElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
+
+    button.style.fontFamily = accessObject.font;
+    button.style.fontSize = accessObject.textSize;
+    button.style.color = accessObject.textColour;
+    document.body.style.backgroundColor = accessObject.backgroundColour;
+}
+
 function init(){
     const backButton = document.querySelector('#backButton');
     backButton.addEventListener('click', () => {
@@ -186,6 +208,7 @@ function init(){
     updateSupervisor.addEventListener('click', submitSupervisorUpdate);
     updateModerator.addEventListener('click', submitModeratorUpdate);
     getTarget();
+    applyAccessibility();
 }
 
 init();

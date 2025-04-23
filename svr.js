@@ -99,7 +99,7 @@ async function getChosen(req, res){
   res.json(await db.findAllChosen());
 }
 
-async function minusSlots(req, res){
+async function updateSlots(req, res){
   const slots = await db.minusSlots(req.body);
   res.json(slots);
 }
@@ -121,6 +121,7 @@ app.put('/choices/:id', express.json(), asyncWrap(updateChoices));
 app.post('/choices', express.json(), asyncWrap(setDefaultChoices));
 app.post('/assign', express.json(), asyncWrap(assignSupervisor));
 app.get('/chosen', getChosen);
-app.put('/slots', express.json(), asyncWrap(minusSlots));
+app.put('/slots', express.json(), asyncWrap(updateSlots));
+app.put('/choices', express.json(), asyncWrap(updateChoices));
 
 app.listen(8080);

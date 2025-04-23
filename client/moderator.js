@@ -18,10 +18,11 @@ async function loadModerators(){
             row.textContent += `${value}, `;
         }
         button.addEventListener('click', () => window.location.href = `edit#moderator${moderator.moderatorid}`);
-        span.append(row);
-        span.append(button);
-        target.append(span);
+        target.append(row);
+        target.append(button);
     }
+    
+    applyAccessibility();
 }
 
 
@@ -36,6 +37,31 @@ function goToImport(){
 
 function goToSupervisor(){
     window.location.href = '/supervisor';
+}
+
+function applyAccessibility(){
+    const allElems = document.querySelectorAll('body > *');
+    const otherElems = document.querySelectorAll('section > *');
+    const cookieSplit1 = document.cookie.split("; ");
+    const cookieValue = [];
+    const accessObject = {};
+    for(const cookie of cookieSplit1){
+        const cookieSplit2 = cookie.split("=");
+        accessObject[cookieSplit2[0]] = cookieSplit2[1];
+    }
+
+    for(const elem of allElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
+
+    for(const elem of otherElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
+    document.body.style.backgroundColor = accessObject.backgroundColour;
 }
 
 function init(){

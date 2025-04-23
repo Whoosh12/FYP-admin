@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<title>FYP admin app</title>
+<link rel="stylesheet" href="style.css"/>
+<!-- <link rel="stylesheet" type="text/otf" href="./OpenDyslexic-Regular.otf"/> -->
+<script defer src="accessibility.js" type="module"></script>
+
+<body>
+    <button id="backButton">Back</button>
+
+    <p>Font: </p>
+    <select id="fontChoice">
+        <option value="TNR">Times New Roman</option>
+        <option value="serif">Serif</option>
+        <option value="sans-serif">Sans-Serif</option>
+        <option value="monospace">Monospace</option>
+        <option value="cursive">Cursive</option>
+        <option value="openDyslexic">Open Dyslexic</option>
+    </select>
+
+    <p>Text Colour: </p>
+    <select id="fontColourChoice">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="grey">Grey</option>
+    </select>
+
+    <p>Text Size: </p>
+    <input type="range" id="textSize" min="10" max="32" />
+
+    <p>Background Colour: </p>
+    <select id="backgroundColour">
+        <option value="white">White</option>
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="grey">Grey</option>
+    </select>
+
+    <button id="submit">Submit</button>
+</body>

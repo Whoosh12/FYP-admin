@@ -48,6 +48,24 @@ async function submitChoices(){
     window.location.href = '/student';
 }
 
+function applyAccessibility(){
+    const allElems = document.querySelectorAll('body > *');
+    const cookieSplit1 = document.cookie.split("; ");
+    const cookieValue = [];
+    const accessObject = {};
+    for(const cookie of cookieSplit1){
+        const cookieSplit2 = cookie.split("=");
+        accessObject[cookieSplit2[0]] = cookieSplit2[1];
+    }
+
+    for(const elem of allElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
+    document.body.style.backgroundColor = accessObject.backgroundColour;
+}
+
 function init(){
     const backButton = document.querySelector('#backButton');
     backButton.addEventListener('click', () => {
@@ -56,6 +74,7 @@ function init(){
     const submitButton = document.querySelector('#submitButton');
     submitButton.addEventListener('click', submitChoices);
     getSupervisors();
+    applyAccessibility();
 }
 
 init();
