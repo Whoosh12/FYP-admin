@@ -4,11 +4,15 @@
 <link rel="stylesheet" href="style.css"/>
 <script defer src="supervisor.js" type="module"></script>
 
-<body>
-    <button id="studentPage">Students</button>
-    <button id="supervisorPage" disabled>Supervisors</button>
-    <button id="moderatorPage">Moderators</button>
-    <button id="importPage">Import</button>
+<body id="grid">
+    <section>
+        <button id="studentPage">Students</button>
+        <button id="supervisorPage" disabled>Supervisors</button>
+        <button id="moderatorPage">Moderators</button>
+        <button id="importPage">Import</button>
+        <button id="accessibility">Accessibility</button>
+    </section>
 
+    <p id="columnDefs">ID, Supervisor Name, Remaining Slots, Teaching Area</p>
     <section id="supervisorTarget"></section>
 </body>

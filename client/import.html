@@ -2,10 +2,14 @@
 
 <script defer src="import.js" type="module"></script>
 
-<body>
-    <input type="file" id="fileInput" accept=".csv">
-    <button id="importStudents">Import Students</button>
-    <button id="importStaff">Import Staff</button>
+<body id="imports">
+    <button id="back">Back</button>
+
+    <section id="inputs">
+        <input type="file" id="fileInput" accept=".csv">
+        <button id="importStudents">Import Students</button>
+        <button id="importStaff">Import Staff</button>
+    </section>
 
     <p id="feedback">Please import staff data first</p>
 </body>

@@ -1,5 +1,10 @@
 {
     "type": "module",
+    "scripts": {
+        "start": "node svr.js",
+        "setup": "npm i && createdb db && psql -U postgres -d db -a -f ./db.sql"
+    },
+
     "dependencies": {
         "cors": "^2.8.5",
         "express": "^4.21.2",

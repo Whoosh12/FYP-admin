@@ -15,11 +15,20 @@ async function loadStudents(){
         button1.textContent = '>';
         button2.textContent = 'Edit Choices';
         for(const [key, value] of Object.entries(student)){
-            row.textContent += `${value}, `;
+            if(key != 'marksup'){
+                row.textContent += `${value}, `;
+            }
         }
         
         button1.addEventListener('click', () => window.location.href = `edit#student${student.studentid}`);
         button2.addEventListener('click', () => window.location.href = `choices#${student.studentid}`);
+        row.classList.add('info');
+        button2.classList.add('info');
+        button1.classList.add('info');
+        row.classList.add('data');
+        button2.classList.add('choices');
+        button1.classList.add('edit');
+
         target.append(row);
         target.append(button2);
         target.append(button1);
@@ -32,12 +41,13 @@ async function assignmentAlgo(){
     const getStudents = await fetch('/chosen');
     const students = await getStudents.json();
 
-    const getSupervisors = await fetch('/supervisors');
-    const supervisors = await getSupervisors.json();
+    const getSupervisors = await fetch('/supervisors'); 
+    const supervisors = await getSupervisors.json(); //supervisor data stored in array accessible to the whole function
 
     const getModerators = await fetch('/moderators');
-    const moderators = await getModerators.json();
+    const moderators = await getModerators.json(); //moderator data stored in array accessible to the whole function
 
+    console.log(moderators);
     const trainingSups = [];
     assignRandomChoices();
     for(const supervisor of supervisors){
@@ -55,10 +65,15 @@ async function assignmentAlgo(){
         } else if(student.marksup == false){
             assignRemainingStudents(student);
         }
+        assignModerators(student);
     }
 
     for(const supervisor of supervisors){
-        updateSlots(supervisor);
+        updateSupSlots(supervisor);
+    }
+
+    for(const moderator of moderators){
+        updateModSlots(moderator);
     }
 
     async function assignRandomChoices(){
@@ -78,7 +93,7 @@ async function assignmentAlgo(){
                     }
                 }
             }
-            console.log(student);
+
             const payload = {
                 id: student.studentid,
                 choice1: student.choice1,
@@ -108,10 +123,11 @@ async function assignmentAlgo(){
         });
     }
 
-    async function assignPrioStudents(student){
+    async function assignPrioStudents(student){ //Code created with help from Emma Kerr
         let randomTrainingStaff = Math.max(Math.min(Math.round(Math.random() * trainingSups.length), trainingSups.length - 1), 1);
         const id = student.studentid;
     
+        student.supervisorid = supervisors[randomSup].supervisorid
         const payload = {
             id,
             supervisorid: trainingSups[randomTrainingStaff].supervisorid,
@@ -136,13 +152,12 @@ async function assignmentAlgo(){
 
     async function assignRemainingStudents(student){
         let randomSup = Math.max(Math.min(Math.round(Math.random() * supervisors.length), supervisors.length - 1), 1);
-        let randomMod = Math.max(Math.min(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
         const id = student.studentid;
     
+        student.supervisorid = supervisors[randomSup].supervisorid
         const payload = {
             id,
             supervisorid: supervisors[randomSup].supervisorid,
-            moderatorid: moderators[randomMod].moderatorid,
         };
     
         const response = await fetch(`assign`, {
@@ -159,14 +174,55 @@ async function assignmentAlgo(){
         supervisors[randomStaff].supervisorslots -= 1;
     }
 
-    async function updateSlots(supervisor){
+    async function assignModerators(student){
+        let randomMod = Math.min(Math.max(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
+        const id = student.studentid;
+
+        while(student.supervisorid = randomMod){
+            randomMod = Math.min(Math.max(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
+        }
+
+        const payload = {
+            id,
+            moderatorid: moderators[randomMod].moderatorid,
+        }
+
+        const response = await fetch('assignMod', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+        });
+
+        while(supervisors[randomMod].moderatorslots <= 0){
+            moderators.splice(randomMod, 1);
+            randomMod = Math.min(Math.max(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
+        }
+
+        moderators[randomMod].moderatorslots -=1;
+    }
+
+    async function updateSupSlots(supervisor){
         const supID = parseInt(supervisor.supervisorid);
         const payload = {
             id: supID,
             slots: slots,
         }
     
-        const response = await fetch(`slots`, {
+        const response = await fetch(`supSlots`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        })
+    }
+
+    async function updateModSlots(moderator){
+        const modID = parseInt(moderator.moderatorid);
+        const payload = {
+            id: modID,
+            slots: slots,
+        }
+    
+        const response = await fetch(`modSlots`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -185,6 +241,10 @@ function goToSupervisor(){
 
 function goToModerator(){
     window.location.href = '/moderator';
+}
+
+function goToAccessibility(){
+    window.location.href = '/accessibility';
 }
 
 function applyAccessibility(){
@@ -221,6 +281,8 @@ function init(){
     supervisorSelect.addEventListener('click', goToSupervisor);
     const choiceAssign = document.querySelector('#choiceAssign');
     choiceAssign.addEventListener('click', assignmentAlgo);
+    const accessibilityPage = document.querySelector('#accessibility');
+    accessibilityPage.addEventListener('click', goToAccessibility);
     loadStudents();
 }
 

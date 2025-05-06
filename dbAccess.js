@@ -25,7 +25,7 @@ export async function saveModerators(moderators){
 }
 
 export async function findAllStudents(){
-  const q =  'SELECT studentID, firstName, lastName, student.course, markSup, supervisorFName, supervisorLName, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID;';
+  const q =  'SELECT studentID, firstName, lastName, student.course, markSup, supervisor.supervisorID, supervisorFName, supervisorLName, moderator.moderatorID, moderatorFName, moderatorLName FROM student INNER JOIN supervisor ON student.supervisorID = supervisor.supervisorID INNER JOIN moderator ON student.moderatorID = moderator.moderatorID;';
   const r = await sql.query(q);
   return r.rows;
 }
@@ -37,7 +37,7 @@ export async function findAllSupervisors(){
 }
 
 export async function findAllmoderators(){
-  const q = 'SELECT moderatorID, moderatorFName, moderatorLName, moderatorSlots FROM moderator;';
+  const q = 'SELECT moderatorID, moderatorFName, moderatorLName, moderatorSlots, course FROM moderator;';
   const r = await sql.query(q);
   return r.rows;
 }
@@ -86,19 +86,49 @@ export async function setDefaultChoices(choices){
 }
 
 export async function assignSupervisor(choice){
-  const q = 'UPDATE student SET supervisorid = $1, moderatorid = $2, markSup = true WHERE studentid = $3;';
-  await sql.query(q, [choice.supervisorid, choice.moderatorid, choice.id]);
+  const q = 'UPDATE student SET supervisorid = $1, markSup = true WHERE studentid = $2;';
+  await sql.query(q, [choice.supervisorid, choice.id]);
 }
 
-export async function updateSlots(supervisor){
+export async function updateSupSlots(supervisor){
   const q = 'UPDATE supervisor SET supervisorslots = $1 WHERE supervisorid = $2;';
   await sql.query(q, [supervisor.slots, supervisor.id]);
+}
+
+export async function updateModSlots(moderator){
+  const q = 'UPDATE moderator SET moderatorslots = $1 WHERE moderatorid = $2;';
+  await sql.query(q, [moderator.slots, moderator.id]);
 }
 
 export async function findAllChosen(){
   const q = 'SELECT student.studentid, student.course, choice1, choice2, choice3, marksup FROM student INNER JOIN student_choice ON student.studentid = student_choice.studentid WHERE choice1 = 1 AND choice2 = 1 AND choice3 = 1 AND marksup = false;';
   const r = await sql.query(q);
   return r.rows;
+}
+
+export async function assignModerator(mod){
+  const q = 'UPDATE student SET moderatorid = $1 WHERE studentid = $2;';
+  await sql.query(q, [mod.moderatorid, mod.id]);
+}
+
+export async function deleteStudent(student){
+  const q = 'DELETE FROM student WHERE id = $1;'
+  await sql.query(q, [student]);
+}
+
+export async function deleteSupervisor(supervisor){
+  const q = 'DELETE FROM supervisor WHERE supervisorid = $1;'
+  await sql.query(q, [supervisor]);
+}
+
+export async function deleteModerator(moderator){
+  const q = 'DELETE FROM moderator WHERE moderatorid = $1;'
+  await sql.query(q, [moderator]);
+}
+
+export async function updateAssignments(id){
+  const q = 'SELECT id FROM student WHERE supervisorid = $1 OR moderatorid = $1;';
+  await sql.query(q, [id]);
 }
 
 

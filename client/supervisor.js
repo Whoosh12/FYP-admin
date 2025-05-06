@@ -17,6 +17,10 @@ async function loadSupervisors(){
             row.textContent += `${value}, `;
         }
         button.addEventListener('click', () => window.location.href = `edit#supervisor${supervisor.supervisorid}`);
+        row.classList.add('info');
+        button.classList.add('info');
+        row.classList.add('data');
+        button.classList.add('edit');
         target.append(row);
         target.append(button);
     }
@@ -36,6 +40,10 @@ function goToImport(){
 
 function goToModerator(){
     window.location.href = '/moderator';
+}
+
+function goToAccessibility(){
+    window.location.href = '/accessibility';
 }
 
 function applyAccessibility(){
@@ -70,6 +78,8 @@ function init(){
     importSelect.addEventListener('click', goToImport);
     const moderatorSelect = document.querySelector('#moderatorPage');
     moderatorSelect.addEventListener('click', goToModerator);
+    const accessibilityPage = document.querySelector('#accessibility');
+    accessibilityPage.addEventListener('click', goToAccessibility);
     loadSupervisors();
 }
 

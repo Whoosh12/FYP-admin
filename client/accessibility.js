@@ -20,7 +20,6 @@ function submitChoices(){
     document.cookie = `textColour=${textColour.value}; SameSite=None; Secure`;
     document.cookie = `textSize=${textSize.value + "px"}; SameSite=None; Secure`;
     document.cookie = `backgroundColour=${backgroundColour.value}; SameSite=None; Secure`;
-    console.log(document.cookie);
 
     applyAccessibility();
 }

@@ -73,10 +73,10 @@ function submitStaffFile(){
 }
 
 async function saveStaff(staff) {
-    const randomNum = Math.round(Math.random() * 6);
-    const feedback = document.querySelector('#feedback');
+    const feedback = document.querySelector('#feedback'); // find the element containing the feedback text
     for(let i = 0; i < staff.length; i++){
         const payload = staff[i];
+        // send the HTTP requests to do the INSERT queries
         const response1 = await fetch('supervisors', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -87,10 +87,9 @@ async function saveStaff(staff) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         });
-        console.log(staff[i]);
         feedback.textContent = `Imported ${i + 1} out of ${staff.length} staff`
     }
-    window.location.href = '/';
+    window.location.href = '/'; //returns the user to the home page
 }
 
 function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/how-to-convert-csv-to-json-in-javascript/
@@ -112,17 +111,15 @@ function csvToJson(csvString) { //code found on https://www.geeksforgeeks.org/ho
 
             obj[key] = value;
         }
-        // console.log(obj);
         jsonData.push(obj);
     }
-    // console.log(jsonData);
     return jsonData;
 }
 
 function applyAccessibility(){
     const allElems = document.querySelectorAll('body > *');
+    const otherElems = document.querySelectorAll('section > *');
     const cookieSplit1 = document.cookie.split("; ");
-    const cookieValue = [];
     const accessObject = {};
     for(const cookie of cookieSplit1){
         const cookieSplit2 = cookie.split("=");
@@ -134,10 +131,20 @@ function applyAccessibility(){
         elem.style.fontSize = accessObject.textSize;
         elem.style.color = accessObject.textColour;
     }
+
+    for(const elem of otherElems){
+        elem.style.fontFamily = accessObject.font;
+        elem.style.fontSize = accessObject.textSize;
+        elem.style.color = accessObject.textColour;
+    }
     document.body.style.backgroundColor = accessObject.backgroundColour;
 }
 
 function init(){
+    const backButton = document.querySelector('#back');
+    backButton.addEventListener('click', () => {
+        history.back();
+    });
     const importStudents = document.querySelector('#importStudents');
     const importStaff = document.querySelector('#importStaff');
     importStudents.addEventListener('click', submitStudentFile);

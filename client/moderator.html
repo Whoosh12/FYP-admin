@@ -4,13 +4,15 @@
 <link rel="stylesheet" href="style.css"/>
 <script defer src="moderator.js" type="module"></script>
 
-<body>
-    <section id="pageSelect">
+<body id="grid">
+    <section id="nav">
         <button id="studentPage">Students</button>
         <button id="supervisorPage">Supervisors</button>
         <button id="moderatorPage" disabled>Moderators</button>
         <button id="importPage">Import</button>
+        <button id="accessibility">Accessibility</button>
     </section>
 
+    <p id="columnDefs">ID, Moderator Name, Remaining Slots, Teaching Area</p>
     <section id="moderatorTarget"></section>
 </body>

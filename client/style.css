@@ -8,3 +8,58 @@
 .hidden {
     display: none;
 }
+
+button {
+    border: 10px;
+    border-radius: 0;
+    margin: 0.2em;
+}
+
+.info{
+    display: inline-block;
+}
+
+#grid1{
+    display: grid;
+    grid-template-areas: "nav nav nav"
+                         "label label label"
+                         "1 2 3";
+    grid-auto-rows: 2.5em;
+}
+
+#grid2{
+    display: grid;
+    grid-template-areas: "nav nav"
+                         "label label"
+                         "1 3";
+    grid-auto-rows: 2.5em;
+}
+
+#nav{
+    grid-area: nav;
+}
+
+.data{
+    grid-area: 1;
+    min-width: 60vw;
+}
+
+.choices{
+    grid-area: 2;
+}
+
+.edit{
+    grid-area: 3;
+}
+
+#columnDefs{
+    grid-area: label;
+}
+
+#imports{
+    display: grid;
+    grid-template-areas: "back"
+                         "inputs"
+                         "feedback";
+}
+

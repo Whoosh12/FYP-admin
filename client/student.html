@@ -4,13 +4,17 @@
 <link rel="stylesheet" href="style.css"/>
 <script defer src="student.js" type="module"></script>
 
-<body>
-    <button id="studentPage" disabled>Students</button>
-    <button id="supervisorPage">Supervisors</button>
-    <button id="moderatorPage">Moderators</button>
-    <button id="importPage">Import</button>
-    <button id="choiceAssign">Assign students choices</button>
+<body id="grid">
+    <section id="nav">
+        <button id="studentPage" disabled>Students</button>
+        <button id="supervisorPage">Supervisors</button>
+        <button id="moderatorPage">Moderators</button>
+        <button id="importPage">Import</button>
+        <button id="accessibility">Accessibility</button>
+        <button id="choiceAssign">Assign students choices</button>
+    </section>
+    
 
-    <p id="columnDefs">Student ID, First Name, Last Name, Course, Supervisor ID, Moderator ID</p>
+    <p id="columnDefs">Student ID, First Name, Last Name, Course, Supervisor Name, Moderator Name</p>
     <section id="studentTarget"></section>
 </body>

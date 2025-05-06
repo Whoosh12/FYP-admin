@@ -99,11 +99,40 @@ async function getChosen(req, res){
   res.json(await db.findAllChosen());
 }
 
-async function updateSlots(req, res){
-  const slots = await db.minusSlots(req.body);
+async function updateSupSlots(req, res){
+  const slots = await db.updateSupSlots(req.body);
   res.json(slots);
 }
 
+async function updateModSlots(req, res){
+  const slots = await db.updateModSlots(req.body);
+  res.json(slots);
+}
+
+async function assignModerator(req, res){
+  const mod = await db.assignModerator(req.body);
+  res.json(mod);
+}
+
+async function deleteStudent(req, res){
+  const student = await db.deleteStudent(req.body);
+  res.json(student);
+}
+
+async function deleteSupervisor(req, res){
+  const staff = await db.deleteSupervisor(req.body);
+  res.json(staff);
+}
+
+async function deleteModerator(req, res){
+  const staff = await db.deleteModerator(req.body);
+  res.json(staff);
+}
+
+async function updateAssignments(req, res){
+  const id = await db.updateAssignments(req.body);
+  res.json(id);
+}
 
 app.get('/students', getStudents);
 app.post('/student', express.json(), asyncWrap(saveStudent));
@@ -121,7 +150,13 @@ app.put('/choices/:id', express.json(), asyncWrap(updateChoices));
 app.post('/choices', express.json(), asyncWrap(setDefaultChoices));
 app.post('/assign', express.json(), asyncWrap(assignSupervisor));
 app.get('/chosen', getChosen);
-app.put('/slots', express.json(), asyncWrap(updateSlots));
+app.put('/supSlots', express.json(), asyncWrap(updateSupSlots));
+app.put('/modSlots', express.json(), asyncWrap(updateModSlots));
 app.put('/choices', express.json(), asyncWrap(updateChoices));
+app.post('/assignMod', express.json(), asyncWrap(assignModerator));
+app.post('/student/:id', express.json(), asyncWrap(deleteStudent));
+app.post('/staff/:id', express.json(), asyncWrap(deleteSupervisor));
+app.post('/moderator/:id', express.json(), asyncWrap(deleteModerator));
+app.get('/assignedStudent/:id', express.json(), asyncWrap(updateAssignments));
 
 app.listen(8080);

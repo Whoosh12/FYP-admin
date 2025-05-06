@@ -135,7 +135,7 @@ async function submitStudentUpdate(){
 }
 
 async function submitSupervisorUpdate() {
-    id = window.location.hash.substring(11);
+    const id = window.location.hash.substring(11);
     const fNameInput = document.querySelector('#editSupervisorFName');
     const lNameInput = document.querySelector('#editSupervisorLName');
     const slotInput = document.querySelector('#editSupervisorSlots');
@@ -155,7 +155,7 @@ async function submitSupervisorUpdate() {
 }
 
 async function submitModeratorUpdate(){
-    id = window.location.hash.substring(10);
+    const id = window.location.hash.substring(10);
     const fNameInput = document.querySelector('#editModeratorFName');
     const lNameInput = document.querySelector('#editModeratorLName');
     const slotInput = document.querySelector('#editModeratorSlots');
@@ -172,6 +172,42 @@ async function submitModeratorUpdate(){
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+}
+
+async function deleteStudent(){
+    const id = window.location.hash.substring(8);
+    const response = await fetch(`student/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(id),
+    });
+}
+
+async function deleteSupervisor(){
+    const id = window.location.hash.substring(11);
+    const response = await fetch(`staff/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(id),
+    });
+}
+
+async function deleteModerator(){
+    const id = window.location.hash.substring(10);
+    const response = await fetch(`staff/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(id),
+    });
+}
+
+// async function updateSlots(id){
+
+// }
+
+async function updateAssignments(supID, modID){
+    const student = await fetch(`/assignedStudent/${id}`);
+    console.log(student);
 }
 
 function applyAccessibility(){
@@ -207,6 +243,14 @@ function init(){
     updateStudent.addEventListener('click', submitStudentUpdate);
     updateSupervisor.addEventListener('click', submitSupervisorUpdate);
     updateModerator.addEventListener('click', submitModeratorUpdate);
+    const deleteStud = document.querySelector('#deleteStudent');
+    deleteStud.addEventListener('click', deleteStudent());
+    const deleteSup = document.querySelector('#deleteSupervisor');
+    deleteSup.addEventListener('click', deleteSupervisor());
+    deleteSup.addEventListener('click', deleteModerator());
+    const deleteMod = document.querySelector('#deleteModerator');
+    deleteMod.addEventListener('click', deleteSupervisor());
+    deleteMod.addEventListener('click', deleteModerator());
     getTarget();
     applyAccessibility();
 }
