@@ -178,7 +178,7 @@ async function assignmentAlgo(){
         let randomMod = Math.min(Math.max(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
         const id = student.studentid;
 
-        while(student.supervisorid = randomMod){
+        if(student.supervisorid = randomMod){
             randomMod = Math.min(Math.max(Math.round(Math.random() * moderators.length), moderators.length - 1), 1);
         }
 
